@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOJUSZ ZZDL - Ranking</title>
+    <title>SOJUSZ ZZDL - Ranking & Rekrutacja</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,6 +16,7 @@
             --sojusz: #3b82f6;
             --dyplomata: #facc15;
             --czlonek: #94a3b8;
+            --success: #2ecc71;
         }
 
         * { box-sizing: border-box; }
@@ -32,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        /* --- NAGŁÓWEK I WYSZUKIWARKA --- */
+        /* --- NAGŁÓWEK --- */
         header {
             width: 100%;
             padding: 20px 0;
@@ -53,160 +54,62 @@
             align-items: center;
         }
 
-        .logo {
-            font-weight: 900;
-            font-size: 24px;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
+        .logo { font-weight: 900; font-size: 24px; color: var(--accent); text-transform: uppercase; }
 
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .header-controls { display: flex; gap: 15px; align-items: center; }
 
         .search-input {
-            background: #1e293b;
-            border: 2px solid #334155;
-            padding: 12px 25px;
-            border-radius: 50px;
-            color: #fff;
-            width: 260px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            outline: none;
-            font-size: 14px;
+            background: #1e293b; border: 2px solid #334155; padding: 12px 25px;
+            border-radius: 50px; color: #fff; width: 200px; transition: 0.4s; outline: none;
+        }
+        .search-input:focus { width: 280px; border-color: var(--accent); }
+
+        .btn-rekrutacja {
+            background: var(--success); color: white; border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px;
         }
 
-        .search-input:focus {
-            width: 350px;
-            border-color: var(--accent);
-            box-shadow: 0 0 25px rgba(251, 191, 36, 0.2);
-        }
-
-        /* --- TABELA RANKINGOWA --- */
+        /* --- TABELA --- */
         main { width: 95%; max-width: 1100px; margin-top: 50px; padding-bottom: 100px; }
-
-        .table {
-            background: var(--card);
-            border-radius: 24px;
-            border: 1px solid #1e293b;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            overflow: hidden;
-        }
-
+        .table { background: var(--card); border-radius: 24px; border: 1px solid #1e293b; overflow: hidden; }
         .row {
-            display: grid;
-            grid-template-columns: 60px 80px 1fr 1fr 100px;
-            align-items: center;
-            padding: 18px 40px;
-            border-bottom: 1px solid #1e293b;
-            transition: 0.3s;
-            cursor: pointer;
+            display: grid; grid-template-columns: 60px 80px 1fr 1fr 100px;
+            align-items: center; padding: 18px 40px; border-bottom: 1px solid #1e293b; cursor: pointer;
         }
-
-        .row:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: scale(1.005);
-        }
-
-        .rank-id { font-weight: 900; color: var(--muted); font-size: 18px; }
-        
-        /* WYŚWIETLANIE SAMEJ GŁÓWKI */
-        .head-img {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            border: 2px solid #334155;
-            image-rendering: pixelated;
-        }
-
-        .nick-mc { font-weight: 700; font-size: 18px; }
-
-        .badge {
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 900;
-            text-transform: uppercase;
-            border: 1px solid;
-            display: inline-block;
-        }
-        .b-LIDER { color: var(--lider); border-color: var(--lider); background: rgba(239, 68, 68, 0.1); }
-        .b-SOJUSZ { color: var(--sojusz); border-color: var(--sojusz); background: rgba(59, 130, 246, 0.1); }
-        .b-DYPLOMATA { color: var(--dyplomata); border-color: var(--dyplomata); background: rgba(250, 204, 21, 0.1); }
-        .b-CZŁONEK { color: var(--czlonek); border-color: var(--czlonek); background: rgba(148, 163, 184, 0.1); }
-
+        .head-img { width: 45px; height: 45px; border-radius: 10px; image-rendering: pixelated; border: 2px solid #334155; }
         .elo-pts { font-weight: 900; color: #10b981; text-align: right; font-size: 20px; }
 
-        /* --- POWIADOMIENIA (TOASTY) --- */
-        #toast-container {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 9999;
-        }
+        .badge { padding: 6px 14px; border-radius: 8px; font-size: 10px; font-weight: 900; border: 1px solid; text-transform: uppercase; }
+        .b-LIDER { color: var(--lider); border-color: var(--lider); }
+        .b-SOJUSZ { color: var(--sojusz); border-color: var(--sojusz); }
+        .b-DYPLOMATA { color: var(--dyplomata); border-color: var(--dyplomata); }
+        .b-CZŁONEK { color: var(--czlonek); border-color: var(--czlonek); }
 
-        .toast {
-            background: var(--card);
-            border-left: 5px solid var(--accent);
-            padding: 16px 25px;
-            border-radius: 12px;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: toastSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes toastSlideIn {
-            from { transform: translateX(-150%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* --- MODAL PROFILU --- */
+        /* --- MODAL --- */
         .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-
         .modal {
-            background: var(--card);
-            padding: 50px;
-            border-radius: 35px;
-            border: 2px solid var(--accent);
-            text-align: center;
-            min-width: 350px;
-            position: relative;
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--card); padding: 40px; border-radius: 30px; border: 2px solid var(--accent);
+            width: 380px; position: relative; text-align: left;
         }
+        .modal input {
+            width: 100%; padding: 12px; margin: 10px 0; background: #1e293b;
+            border: 1px solid #334155; color: white; border-radius: 10px; outline: none;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: var(--lider); }
 
-        @keyframes modalPop {
-            from { transform: scale(0.7); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        #btnWyslij {
+            width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 900;
+            margin-top: 10px; text-transform: uppercase; cursor: pointer;
         }
+        .btn-szary { background: #475569; color: #94a3b8; cursor: not-allowed !important; }
+        .btn-zielony { background: var(--success); color: white; }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            color: #ef4444;
-            font-size: 35px;
-            cursor: pointer;
-            font-weight: 900;
-        }
+        /* --- POWIADOMIENIA --- */
+        #toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+        .toast { background: var(--card); border-left: 4px solid var(--accent); padding: 15px; border-radius: 10px; margin-top: 10px; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -214,106 +117,175 @@
     <div id="toast-container"></div>
 
     <div class="overlay" id="ov-profile">
-        <div class="modal">
-            <span class="close-btn" onclick="document.getElementById('ov-profile').style.display='none'">&times;</span>
+        <div class="modal" style="text-align: center;">
+            <span class="close-btn" onclick="closeAll()">&times;</span>
             <div id="p-content"></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="ov-rek">
+        <div class="modal">
+            <span class="close-btn" onclick="closeAll()">&times;</span>
+            <h2 style="color: var(--accent); margin: 0 0 20px 0; text-align: center;">Rekrutacja</h2>
+            
+            <label style="font-size: 11px; font-weight: 900; color: var(--muted);">NICK DISCORD:</label>
+            <input type="text" id="rek_dc" placeholder="Twój nick (np. janek#0000)">
+            
+            <label style="font-size: 11px; font-weight: 900; color: var(--muted);">NICK MINECRAFT:</label>
+            <input type="text" id="rek_mc" placeholder="Nick z gry..." oninput="validate()">
+            
+            <label style="font-size: 11px; font-weight: 900; color: var(--muted);">WIEK:</label>
+            <input type="number" id="rek_wiek" placeholder="Twój wiek" oninput="validate()">
+
+            <div id="rek_status" style="font-size: 13px; text-align: center; margin: 10px 0; font-weight: bold;"></div>
+            
+            <button id="btnWyslij" class="btn-szary" disabled onclick="send()">Wyślij Podanie</button>
         </div>
     </div>
 
     <header>
         <div class="nav-container">
             <div class="logo">SOJUSZ ZZDL</div>
-            <div class="search-box">
-                <input type="text" class="search-input" id="s-in" placeholder="Wpisz nick gracza..." onkeypress="if(event.key==='Enter') doSearch()">
+            <div class="header-controls">
+                <input type="text" class="search-input" id="s-in" placeholder="Szukaj gracza..." onkeypress="if(event.key==='Enter') doSearch()">
+                <button class="btn-rekrutacja" onclick="openRek()">Rekrutacja</button>
             </div>
         </div>
     </header>
 
     <main>
-        <div class="table" id="l-box">
-            </div>
+        <div class="table" id="l-box"></div>
     </main>
 
     <script>
         const API = "https://zzdl-ranking-default-rtdb.europe-west1.firebasedatabase.app/ranking.json";
+        const WEBHOOK = "https://discord.com/api/webhooks/1502388914877628457/4VwAtEMmjAua_BC4XM3fW5s1XQ6vHE4ubkgDZYDz-DYP7m_mcav7jzKKfglnClQcBPbv";
         let players = [];
 
-        // Funkcja ładująca ładne powiadomienia
-        function showToast(msg) {
-            const container = document.getElementById('toast-container');
-            const t = document.createElement('div');
-            t.className = 'toast';
-            t.innerHTML = `<span>🔔</span> ${msg}`;
-            container.appendChild(t);
-            
-            setTimeout(() => {
-                t.style.opacity = '0';
-                t.style.transform = 'translateX(-20px)';
-                t.style.transition = '0.5s';
-                setTimeout(() => t.remove(), 500);
-            }, 3500);
+        function toast(m) {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div'); t.className = 'toast'; t.innerText = m;
+            c.appendChild(t); setTimeout(() => t.remove(), 3000);
         }
 
-        async function loadData() {
+        async function load() {
             try {
                 const r = await fetch(API);
                 const d = await r.json();
-                if(!d) return;
-
-                players = Object.values(d).sort((a,b) => (b.elo||0) - (a.elo||0));
-                
-                const box = document.getElementById('l-box');
-                box.innerHTML = '';
-
-                players.forEach((p, i) => {
-                    const t = p.tytul || "CZŁONEK";
-                    const row = document.createElement('div');
-                    row.className = 'row';
-                    row.style.animation = `rowFade 0.5s ease forwards ${i * 0.05}s`;
-                    row.onclick = () => showProfile(p, i+1);
-                    
-                    row.innerHTML = `
-                        <span class="rank-id">${i+1}.</span>
-                        <img src="https://minotar.net/helm/${p.mc}/45.png" class="head-img">
-                        <span class="nick-mc">${p.mc}</span>
-                        <div><span class="badge b-${t.split(' ')[0]}">${t}</span></div>
-                        <span class="elo-pts">${p.elo||0}</span>
-                    `;
-                    box.appendChild(row);
-                });
-                showToast("Ranking został wczytany!");
-            } catch(e) { 
-                showToast("❌ Błąd połączenia z bazą!");
-            }
+                players = Object.values(d).sort((a,b) => (b.elo||0)-(a.elo||0));
+                render();
+            } catch(e) { toast("Błąd ładowania danych!"); }
         }
 
-        function showProfile(p, rank) {
-            const t = p.tytul || "CZŁONEK";
+        function render() {
+            const box = document.getElementById('l-box'); box.innerHTML = '';
+            players.forEach((p, i) => {
+                const row = document.createElement('div'); row.className = 'row';
+                row.onclick = () => showProf(p, i+1);
+                row.innerHTML = `
+                    <span style="font-weight:900; color:var(--muted)">${i+1}.</span>
+                    <img src="https://minotar.net/helm/${p.mc}/45.png" class="head-img">
+                    <span class="nick-mc">${p.mc}</span>
+                    <div><span class="badge b-${(p.tytul||'CZŁONEK').split(' ')[0]}">${p.tytul||'CZŁONEK'}</span></div>
+                    <span class="elo-pts">${p.elo||0}</span>
+                `;
+                box.appendChild(row);
+            });
+        }
+
+        function showProf(p, r) {
             document.getElementById('p-content').innerHTML = `
-                <img src="https://minotar.net/armor/body/${p.mc}/120.png" style="width:120px; margin-bottom:20px;">
-                <div style="font-size:32px; font-weight:900; margin-bottom:5px;">${p.mc}</div>
-                <div class="badge b-${t.split(' ')[0]}" style="margin-bottom:25px;">${t}</div>
-                <div style="display:flex; justify-content:space-around; background:rgba(0,0,0,0.2); padding:20px; border-radius:20px;">
-                    <div><div style="font-size:11px; color:var(--muted); font-weight:800;">MIEJSCE</div><div style="font-size:24px; font-weight:900; color:var(--accent);">#${rank}</div></div>
-                    <div><div style="font-size:11px; color:var(--muted); font-weight:800;">PUNKTY ELO</div><div style="font-size:24px; font-weight:900; color:#10b981;">${p.elo||0}</div></div>
-                </div>
+                <img src="https://minotar.net/armor/body/${p.mc}/100.png" style="margin-bottom:15px;">
+                <h2 style="margin:0">${p.mc}</h2>
+                <p style="color:var(--accent); font-weight:900;">MIEJSCE #${r}</p>
+                <p style="font-size:24px; color:var(--success); font-weight:900;">${p.elo||0} ELO</p>
             `;
             document.getElementById('ov-profile').style.display = 'flex';
         }
 
-        function doSearch() {
-            const val = document.getElementById('s-in').value.trim().toLowerCase();
-            const p = players.find(x => x.mc.toLowerCase() === val);
+        function openRek() { document.getElementById('ov-rek').style.display = 'flex'; }
+        function closeAll() { document.getElementById('ov-rek').style.display = 'none'; document.getElementById('ov-profile').style.display = 'none'; }
+
+        function validate() {
+            const mc = document.getElementById('rek_mc').value.trim().toLowerCase();
+            const wiek = document.getElementById('rek_wiek').value;
+            const status = document.getElementById('rek_status');
+            const btn = document.getElementById('btnWyslij');
             
+            const p = players.find(x => x.mc.toLowerCase() === mc);
+            
+            if(!mc) { status.innerText = ""; setBtn(false); return; }
+
             if(p) {
-                showProfile(p, players.indexOf(p) + 1);
+                if(p.elo >= 3000) {
+                    status.innerText = `✅ Posiadasz ${p.elo} ELO.`;
+                    status.style.color = "var(--success)";
+                    if(wiek > 0) setBtn(true); else setBtn(false);
+                } else {
+                    status.innerText = `❌ Masz ${p.elo} ELO (Wymagane 3000).`;
+                    status.style.color = "var(--lider)";
+                    setBtn(false);
+                }
             } else {
-                showToast("❌ Nie znaleziono gracza o tym nicku!");
+                status.innerText = "❌ Nie znaleziono Cię w bazie.";
+                status.style.color = "var(--lider)";
+                setBtn(false);
             }
-            document.getElementById('s-in').value = '';
         }
 
-        window.onload = loadData;
+        function setBtn(s) {
+            const b = document.getElementById('btnWyslij');
+            b.disabled = !s; b.className = s ? "btn-zielony" : "btn-szary";
+        }
+
+        async function send() {
+            const mc = document.getElementById('rek_mc').value;
+            const dc = document.getElementById('rek_dc').value;
+            const wiek = document.getElementById('rek_wiek').value;
+            const p = players.find(x => x.mc.toLowerCase() === mc.toLowerCase());
+
+            const msg = {
+                content: "@everyone",
+                embeds: [{
+                    title: "📩 NOWE PODANIE - REKRUTACJA",
+                    color: 3066993,
+                    thumbnail: { url: `https://minotar.net/helm/${mc}/100.png` },
+                    fields: [
+                        { name: "🎮 Gracz", value: mc, inline: true },
+                        { name: "💬 Discord", value: dc, inline: true },
+                        { name: "🎂 Wiek", value: wiek, inline: true },
+                        { name: "📊 ELO", value: p.elo.toString(), inline: true }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(msg)
+                });
+                if(response.ok) {
+                    toast("✅ Wysłano pomyślnie!");
+                    closeAll();
+                } else {
+                    toast("❌ Błąd Webhooka!");
+                }
+            } catch(e) {
+                toast("❌ Błąd sieci!");
+                console.error(e);
+            }
+        }
+
+        function doSearch() {
+            const v = document.getElementById('s-in').value.trim().toLowerCase();
+            const p = players.find(x => x.mc.toLowerCase() === v);
+            if(p) showProf(p, players.indexOf(p)+1);
+            else toast("Nie znaleziono gracza!");
+        }
+
+        window.onload = load;
     </script>
 </body>
 </html>
